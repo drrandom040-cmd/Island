@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Usland</string>
+    <string name="app_tagline">Dynamic Island for Android</string>
+    
+    <!-- Permissions -->
+    <string name="permission_overlay_title">Overlay Permission</string>
+    <string name="permission_overlay_desc">Required to display the Dynamic Island over other apps</string>
+    <string name="permission_notification_title">Notification Access</string>
+    <string name="permission_notification_desc">Required to show notifications in the Dynamic Island</string>
+    
+    <!-- Buttons -->
+    <string name="btn_grant_overlay">Grant Overlay Permission</string>
+    <string name="btn_grant_notification">Grant Notification Access</string>
+    <string name="btn_start_service">Start Usland</string>
+    <string name="btn_stop_service">Stop Usland</string>
+    <string name="btn_open_settings">Open Settings</string>
+    
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_behavior">Behavior</string>
+    <string name="settings_about">About</string>
+    
+    <string name="setting_logo_animation">Logo Animation</string>
+    <string name="setting_logo_animation_desc">Enable rotating logo animation when idle</string>
+    <string name="setting_glow_effect">Glow Effect</string>
+    <string name="setting_glow_effect_desc">Show pulsing glow around the logo</string>
+    <string name="setting_pill_size">Pill Size</string>
+    <string name="setting_pill_position">Vertical Position</string>
+    <string name="setting_auto_collapse">Auto Collapse</string>
+    <string name="setting_auto_collapse_desc">Automatically collapse notifications after timeout</string>
+    <string name="setting_collapse_delay">Collapse Delay</string>
+    <string name="setting_haptic_feedback">Haptic Feedback</string>
+    <string name="setting_haptic_feedback_desc">Vibrate on expand/collapse</string>
+    <string name="setting_start_on_boot">Start on Boot</string>
+    <string name="setting_start_on_boot_desc">Automatically start Usland when device boots</string>
+    
+    <!-- Notification Channel -->
+    <string name="notification_channel_name">Usland Overlay</string>
+    <string name="notification_channel_desc">Keeps the overlay service running</string>
+    <string name="notification_title">Usland</string>
+    <string name="notification_text">Overlay active</string>
+    
+    <!-- Status Messages -->
+    <string name="status_running">Usland is running</string>
+    <string name="status_stopped">Usland is stopped</string>
+    <string name="status_permissions_needed">Permissions needed</string>
+    
+    <!-- Media -->
+    <string name="media_unknown_track">Unknown Track</string>
+    <string name="media_unknown_artist">Unknown Artist</string>
+    
+    <!-- Timer -->
+    <string name="timer_title">Timer</string>
+    
+    <!-- About -->
+    <string name="about_version">Version %1$s</string>
+    <string name="about_developer">Developed by Elsewhere Studios</string>
+</resources>
