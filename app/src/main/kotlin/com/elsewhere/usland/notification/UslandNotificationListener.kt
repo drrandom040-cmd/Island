@@ -55,27 +55,28 @@ class UslandNotificationListener : NotificationListenerService() {
         // Skip our own notifications
         if (sbn.packageName == packageName) return
 
-        // Skip ongoing/media notifications
         val notification = sbn.notification
-        if (notification.flags and Notification.FLAG_ONGOING_EVENT != 0) return
-        if (notification.category == Notification.CATEGORY_TRANSPORT) return
-
         val extras = notification.extras
 
         // Get title and text
         val title = extras.getCharSequence(Notification.EXTRA_TITLE)?.toString()
             ?: extras.getCharSequence(Notification.EXTRA_TITLE_BIG)?.toString()
+            ?: extras.getCharSequence(Notification.EXTRA_TEXT)?.toString() // Use text as title if title is missing
             ?: return
 
         val body = extras.getCharSequence(Notification.EXTRA_TEXT)?.toString()
             ?: extras.getCharSequence(Notification.EXTRA_BIG_TEXT)?.toString()
+
+        // Skip if it looks like a media control notification that we already handle via MediaSession
+        if (notification.category == Notification.CATEGORY_TRANSPORT) return
+        if (notification.actions?.any { it.title?.toString()?.contains("pause", ignoreCase = true) == true } == true) return
 
         // Get app name
         val appName = try {
             val appInfo = packageManager.getApplicationInfo(sbn.packageName, 0)
             packageManager.getApplicationLabel(appInfo).toString()
         } catch (e: PackageManager.NameNotFoundException) {
-            sbn.packageName
+            sbn.packageName.split(".").last()
         }
 
         val data = NotificationData(

@@ -71,6 +71,15 @@ class OverlayManager(private val context: Context) {
                 updatePosition(initialY + offset)
             }
         }
+
+        // Listen for state changes to trigger layout update
+        scope.launch {
+            OverlayState.pillState.collectLatest { 
+                // Delay slightly to allow Compose to measure the new state
+                delay(100)
+                updatePosition(initialY + OverlayState.verticalOffset.value)
+            }
+        }
     }
 
     fun hide() {

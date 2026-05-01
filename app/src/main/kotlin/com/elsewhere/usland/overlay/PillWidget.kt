@@ -134,6 +134,9 @@ fun PillWidget() {
             }
             .pointerInput(Unit) {
                 detectTapGestures(
+                    onTap = {
+                        OverlayState.onPillTapped()
+                    },
                     onDoubleTap = {
                         if (pillState != PillState.IDLE) {
                             OverlayState.collapse()

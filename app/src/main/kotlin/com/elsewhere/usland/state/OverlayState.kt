@@ -84,32 +84,40 @@ object OverlayState {
     private val handler = Handler(Looper.getMainLooper())
 
     fun pushNotification(data: NotificationData) {
-        if (_pillState.value != PillState.IDLE) {
-            queue.addLast(data)
-            return
-        }
+        // Higher priority for new notifications
         _currentNotification.value = data
         _pillState.value = PillState.NOTIFICATION
+        
+        // Clear any auto-collapse timer if we have one (handled in UI)
     }
 
     fun collapse() {
+        if (queue.isNotEmpty()) {
+            val next = queue.removeFirst()
+            _currentNotification.value = next
+            _pillState.value = PillState.NOTIFICATION
+            return
+        }
+
         _pillState.value = PillState.IDLE
         _currentNotification.value = null
         _currentTimer.value = null
         _currentCall.value = null
-
-        if (queue.isNotEmpty()) {
-            val next = queue.removeFirst()
-            handler.postDelayed({ pushNotification(next) }, 400)
-        }
     }
 
     fun setMedia(data: MediaData?) {
+        val oldMedia = _currentMedia.value
         _currentMedia.value = data
-        if (data != null && data.isPlaying) {
-            _pillState.value = PillState.MEDIA
-        } else if (_pillState.value == PillState.MEDIA) {
-            _pillState.value = PillState.IDLE
+        
+        // Only switch to MEDIA state if music started playing
+        if (data != null && data.isPlaying && (oldMedia == null || !oldMedia.isPlaying)) {
+            if (_pillState.value == PillState.IDLE) {
+                _pillState.value = PillState.MEDIA
+            }
+        } else if (data == null || !data.isPlaying) {
+            if (_pillState.value == PillState.MEDIA) {
+                _pillState.value = PillState.IDLE
+            }
         }
     }
 
@@ -157,6 +165,17 @@ object OverlayState {
 
     fun setPillScale(scale: Float) {
         _pillScale.value = scale.coerceIn(0.8f, 1.5f)
+    }
+
+    fun onPillTapped() {
+        if (_pillState.value == PillState.IDLE) {
+            // Try to show media if available
+            if (_currentMedia.value != null) {
+                _pillState.value = PillState.MEDIA
+            }
+        } else {
+            // If already expanded, maybe do nothing or collapse on double tap (already handled)
+        }
     }
 
     fun setVerticalOffset(offset: Int) {
